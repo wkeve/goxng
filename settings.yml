@@ -7,7 +7,7 @@ general:
   privacypolicy_url: false
   # use true to use your own donation page written in searx/info/en/donate.md
   # use false to disable the donation link
-  donation_url: https://docs.searxng.org/donate.html
+  donation_url: false
   # mailto:contact@example.com
   contact_url: false
   # record stats
@@ -31,7 +31,7 @@ search:
   autocomplete_min: 0
   # Default search language - leave blank to detect from browser information or
   # use codes from 'languages.py'
-  default_lang: ""
+  default_lang: "auto"
   # Available languages
   # languages:
   #   - all
@@ -78,7 +78,7 @@ server:
   # If your instance owns a /etc/searxng/settings.yml file, then set the following
   # values there.
 
-  secret_key: "8a0edc3e7e19b2ee865e39a6847c3b7c"  # Is overwritten by ${SEARXNG_SECRET}
+  secret_key: "21ca4cf660bbac0c0edc2f6ab36c4682"  # Is overwritten by ${SEARXNG_SECRET}
   # Proxying image results through searx
   image_proxy: false
   # 1.0 and 1.1 are supported
@@ -766,29 +766,18 @@ engines:
     shortcut: gos
 
   - name: google play apps
-    engine: google_play_apps
+    engine: google_play
+    categories: [files, apps]
     shortcut: gpa
+    play_categ: apps
     disabled: true
 
   - name: google play movies
-    engine: xpath
-    send_accept_language_header: true
-    search_url: https://play.google.com/store/search?q={query}&c=movies
-    results_xpath: '//div[@class="ImZGtf mpg5gc"]'
-    title_xpath: './/div[@class="RZEgze"]//div[@class="kCSSQe"]//a'
-    url_xpath: './/div[@class="RZEgze"]//div[@class="kCSSQe"]//a/@href'
-    content_xpath: './/div[@class="kCSSQe"]'
-    thumbnail_xpath: './/div[@class="uzcko"]/div/span[1]//img/@data-src'
+    engine: google_play
     categories: videos
     shortcut: gpm
+    play_categ: movies
     disabled: true
-    about:
-      website: https://play.google.com/
-      wikidata_id: Q79576
-      official_api_documentation:
-      use_official_api: false
-      require_api_key: false
-      results: HTML
 
   - name: gpodder
     engine: json_engine
@@ -1498,27 +1487,6 @@ engines:
     disabled: true
     about:
       website: https://wiby.me/
-
-  - name: marginalia
-    engine: json_engine
-    shortcut: mar
-    categories: general
-    paging: false
-    # index: {"0": "popular", "1": "blogs", "2": "big_sites",
-    # "3": "default", "4": experimental"}
-    search_url: https://api.marginalia.nu/public/search/{query}?index=4&count=20
-    results_query: results
-    url_query: url
-    title_query: title
-    content_query: description
-    timeout: 1.5
-    disabled: true
-    about:
-      website: https://www.marginalia.nu/
-      official_api_documentation: https://api.marginalia.nu/
-      use_official_api: true
-      require_api_key: true
-      results: JSON
 
   - name: alexandria
     engine: json_engine
