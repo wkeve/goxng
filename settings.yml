@@ -78,7 +78,7 @@ server:
   # If your instance owns a /etc/searxng/settings.yml file, then set the following
   # values there.
 
-  secret_key: "5f5310d540d7450d209066991165aee8"  # Is overwritten by ${SEARXNG_SECRET}
+  secret_key: "0ea1630d604818a8cf3ec6446490518f"  # Is overwritten by ${SEARXNG_SECRET}
   # Proxying image results through searx
   image_proxy: false
   # 1.0 and 1.1 are supported
@@ -292,6 +292,19 @@ engines:
     engine: 9gag
     shortcut: 9g
     disabled: true
+
+  - name: annas archive
+    engine: annas_archive
+    disabled: true
+    shortcut: aa
+
+  # - name: annas articles
+  #   engine: annas_archive
+  #   shortcut: aaa
+  #   # https://docs.searxng.org/src/searx.engines.annas_archive.html
+  #   aa_content: 'journal_article' # book_any .. magazine, standards_document
+  #   aa_ext: 'pdf'  # pdf, epub, ..
+  #   aa_sort: 'newest'  # newest, oldest, largest, smallest
 
   - name: apk mirror
     engine: apkmirror
@@ -1405,15 +1418,18 @@ engines:
     shortcut: tch
 
   # torznab engine lets you query any torznab compatible indexer.  Using this
-  # engine in combination with Jackett (https://github.com/Jackett/Jackett)
-  # opens the possibility to query a lot of public and private indexers directly
-  # from SearXNG.
-  # - name: torznab
+  # engine in combination with Jackett opens the possibility to query a lot of
+  # public and private indexers directly from SearXNG. More details at:
+  # https://docs.searxng.org/src/searx.engines.torznab.html
+  #
+  # - name: Torznab EZTV
   #   engine: torznab
-  #   shortcut: trz
-  #   base_url: http://localhost:9117/api/v2.0/indexers/all/results/torznab
+  #   shortcut: eztv
+  #   base_url: http://localhost:9117/api/v2.0/indexers/eztv/results/torznab
   #   enable_http: true  # if using localhost
   #   api_key: xxxxxxxxxxxxxxx
+  #   show_magnet_links: true
+  #   show_torrent_files: false
   #   # https://github.com/Jackett/Jackett/wiki/Jackett-Categories
   #   torznab_categories:  # optional
   #     - 2000
