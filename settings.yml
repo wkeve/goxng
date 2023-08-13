@@ -78,7 +78,7 @@ server:
   # If your instance owns a /etc/searxng/settings.yml file, then set the following
   # values there.
 
-  secret_key: "ed2d981cfc1c94b737fcf02b31cb4a9e"  # Is overwritten by ${SEARXNG_SECRET}
+  secret_key: "12c373e8628622a1995eb5425a1bcb4a"  # Is overwritten by ${SEARXNG_SECRET}
   # Proxying image results through searx
   image_proxy: false
   # 1.0 and 1.1 are supported
@@ -109,7 +109,7 @@ ui:
   default_theme: simple
   # center the results ?
   center_alignment: false
-  # URL prefix of the internet archive, don't forgett trailing slash (if needed).
+  # URL prefix of the internet archive, don't forget trailing slash (if needed).
   # cache_url: "https://webcache.googleusercontent.com/search?q=cache:"
   # Default interface locale - leave blank to detect from browser information or
   # use codes from the 'locales' config section
@@ -324,6 +324,20 @@ engines:
     enable_http: true
     shortcut: ah
 
+  - name: anaconda
+    engine: xpath
+    paging: true
+    first_page_num: 0
+    search_url: https://anaconda.org/search?q={query}&page={pageno}
+    results_xpath: //tbody/tr
+    url_xpath: ./td/h5/a[last()]/@href
+    title_xpath: ./td/h5
+    content_xpath: ./td[h5]/text()
+    categories: it
+    timeout: 6.0
+    shortcut: conda
+    disabled: true
+
   - name: arch linux wiki
     engine: archlinux
     shortcut: al
@@ -414,6 +428,7 @@ engines:
     disabled: true
     engine: btdigg
     shortcut: bt
+    disabled: true
 
   - name: ccc-tv
     engine: xpath
@@ -674,11 +689,6 @@ engines:
     shortcut: fsd
     categories: [it, software wikis]
     base_url: https://directory.fsf.org/
-    number_of_results: 5
-    # what part of a page matches the query string: title, text, nearmatch
-    # * title     - query matches title
-    # * text      - query matches the text of page
-    # * nearmatch - nearmatch in title
     search_type: title
     timeout: 5.0
     disabled: true
@@ -899,6 +909,29 @@ engines:
     shortcut: kc
     timeout: 4.0
     disabled: true
+
+  - name: lemmy communities
+    engine: lemmy
+    lemmy_type: Communities
+    shortcut: leco
+
+  - name: lemmy users
+    engine: lemmy
+    network: lemmy communities
+    lemmy_type: Users
+    shortcut: leus
+
+  - name: lemmy posts
+    engine: lemmy
+    network: lemmy communities
+    lemmy_type: Posts
+    shortcut: lepo
+
+  - name: lemmy comments
+    engine: lemmy
+    network: lemmy communities
+    lemmy_type: Comments
+    shortcut: lecom
 
   - name: library genesis
     engine: xpath
@@ -1146,6 +1179,29 @@ engines:
   - name: photon
     engine: photon
     shortcut: ph
+
+  - name: piped
+    engine: piped
+    shortcut: ppd
+    categories: videos
+    piped_filter: videos
+    timeout: 3.0
+
+    # URL to use as link and for embeds
+    frontend_url: https://srv.piped.video
+    # Instance will be selected randomly, for more see https://piped-instances.kavin.rocks/
+    backend_url:
+      - https://pipedapi.kavin.rocks
+      - https://pipedapi-libre.kavin.rocks
+      - https://pipedapi.adminforge.de
+
+  - name: piped.music
+    engine: piped
+    network: piped
+    shortcut: ppdm
+    categories: music
+    piped_filter: music_songs
+    timeout: 3.0
 
   - name: piratebay
     engine: piratebay
@@ -1405,6 +1461,11 @@ engines:
   #      WHERE title LIKE :wildcard OR description LIKE :wildcard
   #      ORDER BY duration DESC
 
+  - name: tagesschau
+    engine: tagesschau
+    shortcut: ts
+    disabled: true
+
   # Requires Tor
   - name: torch
     engine: xpath
@@ -1441,13 +1502,6 @@ engines:
     shortcut: tw
     engine: twitter
     disabled: true
-
-  # maybe in a fun category
-  #  - name: uncyclopedia
-  #    engine: mediawiki
-  #    shortcut: unc
-  #    base_url: https://uncyclopedia.wikia.com/
-  #    number_of_results: 5
 
   # tmp suspended - too slow, too many errors
   #  - name: urbandictionary
@@ -1528,11 +1582,9 @@ engines:
   - name: wikibooks
     engine: mediawiki
     shortcut: wb
-    categories: general
+    categories: [general, wikimedia]
     base_url: "https://{language}.wikibooks.org/"
-    number_of_results: 5
     search_type: text
-    disabled: true
     about:
       website: https://www.wikibooks.org/
       wikidata_id: Q367
@@ -1540,11 +1592,10 @@ engines:
   - name: wikinews
     engine: mediawiki
     shortcut: wn
-    categories: news
+    categories: [news, wikimedia]
     base_url: "https://{language}.wikinews.org/"
-    number_of_results: 5
     search_type: text
-    disabled: true
+    srsort: create_timestamp_desc
     about:
       website: https://www.wikinews.org/
       wikidata_id: Q964
@@ -1552,11 +1603,9 @@ engines:
   - name: wikiquote
     engine: mediawiki
     shortcut: wq
-    categories: general
+    categories: [general, wikimedia]
     base_url: "https://{language}.wikiquote.org/"
-    number_of_results: 5
     search_type: text
-    disabled: true
     additional_tests:
       rosebud: *test_rosebud
     about:
@@ -1566,21 +1615,28 @@ engines:
   - name: wikisource
     engine: mediawiki
     shortcut: ws
-    categories: general
+    categories: [general, wikimedia]
     base_url: "https://{language}.wikisource.org/"
-    number_of_results: 5
     search_type: text
-    disabled: true
     about:
       website: https://www.wikisource.org/
       wikidata_id: Q263
 
+  - name: wikispecies
+    engine: mediawiki
+    shortcut: wsp
+    categories: [general, science, wikimedia]
+    base_url: "https://species.wikimedia.org/"
+    search_type: text
+    about:
+      website: https://species.wikimedia.org/
+      wikidata_id: Q13679
+
   - name: wiktionary
     engine: mediawiki
     shortcut: wt
-    categories: [dictionaries]
+    categories: [dictionaries, wikimedia]
     base_url: "https://{language}.wiktionary.org/"
-    number_of_results: 5
     search_type: text
     about:
       website: https://www.wiktionary.org/
@@ -1589,11 +1645,9 @@ engines:
   - name: wikiversity
     engine: mediawiki
     shortcut: wv
-    categories: general
+    categories: [general, wikimedia]
     base_url: "https://{language}.wikiversity.org/"
-    number_of_results: 5
     search_type: text
-    disabled: true
     about:
       website: https://www.wikiversity.org/
       wikidata_id: Q370
@@ -1601,11 +1655,9 @@ engines:
   - name: wikivoyage
     engine: mediawiki
     shortcut: wy
-    categories: general
+    categories: [general, wikimedia]
     base_url: "https://{language}.wikivoyage.org/"
-    number_of_results: 5
     search_type: text
-    disabled: true
     about:
       website: https://www.wikivoyage.org/
       wikidata_id: Q373
@@ -1621,7 +1673,8 @@ engines:
     # Or you can use the html non-stable engine, activated by default
     engine: wolframalpha_noapi
     timeout: 6.0
-    categories: []
+    categories: general
+    disabled: true
 
   - name: dictzone
     disabled: true
@@ -1753,10 +1806,11 @@ engines:
   #   engine: yacy
   #   shortcut: ya
   #   base_url: http://localhost:8090
-  # required if you aren't using HTTPS for your local yacy instance'
+  #   # required if you aren't using HTTPS for your local yacy instance'
   #   enable_http: true
-  #   number_of_results: 5
   #   timeout: 3.0
+  #   # Yacy search mode. 'global' or 'local'.
+  #   search_mode: 'global'
 
   - name: rumble
     engine: rumble
@@ -1825,59 +1879,34 @@ engines:
     timeout: 9.0
 
   - name: brave
-    shortcut: brave
-    engine: xpath
-    paging: true
+    engine: brave
+    shortcut: br
     time_range_support: true
-    first_page_num: 0
-    time_range_url: "&tf={time_range_val}"
-    search_url: https://search.brave.com/search?q={query}&offset={pageno}&spellcheck=1{time_range}
-    url_xpath: //a[@class="result-header"]/@href
-    title_xpath: //span[@class="snippet-title"]
-    content_xpath: //p[1][@class="snippet-description"]
-    suggestion_xpath: //div[@class="text-gray h6"]/a
-    time_range_map:
-      day: 'pd'
-      week: 'pw'
-      month: 'pm'
-      year: 'py'
-    categories: [general, web]
-    disabled: true
-    headers:
-      Accept-Encoding: gzip, deflate
-    about:
-      website: https://brave.com/search/
-      wikidata_id: Q107355971
-      use_official_api: false
-      require_api_key: false
-      results: HTML
-
-  - name: petalsearch
-    shortcut: pts
-    engine: xpath
     paging: true
-    search_url: https://petalsearch.com/search?query={query}&pn={pageno}
-    url_xpath: //div[@class='card-source']
-    title_xpath: //div[@class='title-name']
-    content_xpath: //div[@class='webpage-text']
-    first_page_num: 1
-    disabled: true
-    headers:
-      User-Agent: Mozilla/5.0 (Linux; Android 7.0;) \
-        AppleWebKit/537.36 (KHTML, like Gecko) \
-        Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)
-    about:
-      website: https://petalsearch.com/
-      wikidata_id: Q104399280
-      use_official_api: false
-      require_api_key: false
-      results: HTML
+    categories: [general, web]
+    brave_category: search
+    # brave_spellcheck: true
 
-  - name: petalsearch images
-    engine: petal_images
-    shortcut: ptsi
-    disabled: true
-    timeout: 3.0
+  - name: brave.images
+    engine: brave
+    network: brave
+    shortcut: brimg
+    categories: [images, web]
+    brave_category: images
+
+  - name: brave.videos
+    engine: brave
+    network: brave
+    shortcut: brvid
+    categories: [videos, web]
+    brave_category: videos
+
+  - name: brave.news
+    engine: brave
+    network: brave
+    shortcut: brnews
+    categories: news
+    brave_category: news
 
   - name: lib.rs
     shortcut: lrs
@@ -1935,6 +1964,10 @@ engines:
       require_api_key: false
       results: HTML
       language: ja
+
+  - name: bt4g
+    engine: bt4g
+    shortcut: bt4g
 
 # Doku engine lets you access to any Doku wiki instance:
 # A public one or a privete/corporate one.
