@@ -78,7 +78,7 @@ server:
   # If your instance owns a /etc/searxng/settings.yml file, then set the following
   # values there.
 
-  secret_key: "12c373e8628622a1995eb5425a1bcb4a"  # Is overwritten by ${SEARXNG_SECRET}
+  secret_key: "8733656c4f014ee75f0b0c15ebd432f1"  # Is overwritten by ${SEARXNG_SECRET}
   # Proxying image results through searx
   image_proxy: false
   # 1.0 and 1.1 are supported
@@ -964,6 +964,7 @@ engines:
     categories: images
 
   - name: lingva
+    disabled: true
     engine: lingva
     shortcut: lv
     # set lingva instance in url, by default it will use the official instance
@@ -1880,6 +1881,7 @@ engines:
 
   - name: brave
     engine: brave
+    disabled: true
     shortcut: br
     time_range_support: true
     paging: true
@@ -1889,6 +1891,7 @@ engines:
 
   - name: brave.images
     engine: brave
+    disabled: true
     network: brave
     shortcut: brimg
     categories: [images, web]
@@ -1896,6 +1899,7 @@ engines:
 
   - name: brave.videos
     engine: brave
+    disabled: true
     network: brave
     shortcut: brvid
     categories: [videos, web]
@@ -1903,6 +1907,7 @@ engines:
 
   - name: brave.news
     engine: brave
+    disabled: true
     network: brave
     shortcut: brnews
     categories: news
