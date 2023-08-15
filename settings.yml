@@ -78,7 +78,7 @@ server:
   # If your instance owns a /etc/searxng/settings.yml file, then set the following
   # values there.
 
-  secret_key: "8733656c4f014ee75f0b0c15ebd432f1"  # Is overwritten by ${SEARXNG_SECRET}
+  secret_key: "2d142052a3099dd660306d137f2dd2e2"  # Is overwritten by ${SEARXNG_SECRET}
   # Proxying image results through searx
   image_proxy: false
   # 1.0 and 1.1 are supported
@@ -341,25 +341,6 @@ engines:
   - name: arch linux wiki
     engine: archlinux
     shortcut: al
-
-  - name: archive is
-    engine: xpath
-    search_url: https://archive.is/search/?q={query}
-    url_xpath: (//div[@class="TEXT-BLOCK"]/a)/@href
-    title_xpath: (//div[@class="TEXT-BLOCK"]/a)
-    content_xpath: //div[@class="TEXT-BLOCK"]/ul/li
-    categories: general
-    timeout: 7.0
-    disabled: true
-    shortcut: ai
-    soft_max_redirects: 1
-    about:
-      website: https://archive.is/
-      wikidata_id: Q13515725
-      official_api_documentation: https://mementoweb.org/depot/native/archiveis/
-      use_official_api: false
-      require_api_key: false
-      results: HTML
 
   - name: artic
     disabled: true
