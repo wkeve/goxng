@@ -78,7 +78,7 @@ server:
   # If your instance owns a /etc/searxng/settings.yml file, then set the following
   # values there.
 
-  secret_key: "7b6f6f003173fb0de3bc8d00be373d01"  # Is overwritten by ${SEARXNG_SECRET}
+  secret_key: "a791d96b7691bb60385ef39f6a2b9468"  # Is overwritten by ${SEARXNG_SECRET}
   # Proxying image results through searx
   image_proxy: false
   # 1.0 and 1.1 are supported
@@ -301,7 +301,7 @@ engines:
   # - name: annas articles
   #   engine: annas_archive
   #   shortcut: aaa
-  #   # https://docs.searxng.org/src/searx.engines.annas_archive.html
+  #   # https://docs.searxng.org/dev/engines/online/annas_archive.html
   #   aa_content: 'journal_article' # book_any .. magazine, standards_document
   #   aa_ext: 'pdf'  # pdf, epub, ..
   #   aa_sort: 'newest'  # newest, oldest, largest, smallest
@@ -367,6 +367,11 @@ engines:
     engine: wikipedia
     shortcut: wp
     base_url: 'https://{language}.wikipedia.org/'
+
+  - name: bilibili
+    engine: bilibili
+    shortcut: bil
+    disabled: false
 
   - name: bing
     engine: bing
@@ -1069,6 +1074,11 @@ engines:
       require_api_key: false
       results: JSON
 
+  - name: odysee
+    engine: odysee
+    shortcut: od
+    disabled: true
+
   - name: openairedatasets
     engine: json_engine
     paging: true
@@ -1471,7 +1481,7 @@ engines:
   # torznab engine lets you query any torznab compatible indexer.  Using this
   # engine in combination with Jackett opens the possibility to query a lot of
   # public and private indexers directly from SearXNG. More details at:
-  # https://docs.searxng.org/src/searx.engines.torznab.html
+  # https://docs.searxng.org/dev/engines/online/torznab.html
   #
   # - name: Torznab EZTV
   #   engine: torznab
@@ -1659,6 +1669,12 @@ engines:
     about:
       website: https://www.wikivoyage.org/
       wikidata_id: Q373
+
+  - name: wikicommons.images
+    engine: wikicommons
+    shortcut: wc
+    categories: images
+    number_of_results: 10
 
   - name: wolframalpha
     shortcut: wa
