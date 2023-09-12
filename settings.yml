@@ -78,7 +78,7 @@ server:
   # If your instance owns a /etc/searxng/settings.yml file, then set the following
   # values there.
 
-  secret_key: "49d03357fe1df71b139e4da6cc539cab"  # Is overwritten by ${SEARXNG_SECRET}
+  secret_key: "ultrasecretkey"  # Is overwritten by ${SEARXNG_SECRET}
   # Proxying image results through searx
   image_proxy: false
   # 1.0 and 1.1 are supported
@@ -1914,6 +1914,11 @@ engines:
     engine: wttr
     shortcut: wttr
     timeout: 9.0
+
+  - name: yummly
+    engine: yummly
+    shortcut: yum
+    disabled: true
 
   - name: brave
     engine: brave
